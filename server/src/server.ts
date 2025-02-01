@@ -25,7 +25,8 @@ connectDB()
   });
 
 // Define routes
-app.get('/', (req: Request, res: Response) => {
+// ROOT Routes
+app.get('/home', (req: Request, res: Response) => {
   res.send('Welcome to the AI Model API');
 });
 
