@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
         <Typography variant="h3" mb={3}>
-          MigraineGenie @2025
+          YourApp@2025
         </Typography>
     </Box>
   );
