@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 
-const Dashboard: React.FC = () => {
+const Home: React.FC = () => {
   return (
     <Box
       height="100%" // fill available vertical space
@@ -15,8 +15,14 @@ const Dashboard: React.FC = () => {
       <Typography variant="h3" mb={3}>
         Welcome to My App
       </Typography>
+      <Typography variant="h5" mb={5}>
+        XXXXXXXX
+      </Typography>
+      <Button variant="contained" color="primary" href="/dashboard">
+        Start
+      </Button>
     </Box>
   );
 };
 
-export default Dashboard;
+export default Home;
