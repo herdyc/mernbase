@@ -1,32 +1,28 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Box, Avatar, Button } from '@mui/material';
-import { Menu as MenuIcon } from '@mui/icons-material';
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
-  const handleProfileClick = () => {
-    // Add your logic here (e.g. open menu, navigate, logout, etc.)
-    alert('Profile clicked!');
-  };
-
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#fff', color: '#333', boxShadow: 'none', borderBottom: '1px solid #e0e0e0' }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        {/* Logo on the left */}
+    <AppBar position="static">
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box display="flex" alignItems="center">
-          <MenuIcon sx={{ mr: 1 }} />
-          <Typography variant="h6" noWrap component="div">
-            MyApp
+          <Typography
+            variant="h6"
+            component={Link}
+            to="/"
+            sx={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            YourApp.io
           </Typography>
         </Box>
-
-        {/* Navbar Links on the right */}
-        <Box display="flex" alignItems="center" gap={2}>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">Features</Button>
-          <Button color="inherit">About</Button>
-          <IconButton onClick={handleProfileClick} sx={{ p: 0 }}>
-            <Avatar alt="User" src="/placeholder-profile.jpg" />
-          </IconButton>
+        <Box>
+          <Button color="inherit" component={Link} to="/recording">
+            Recording
+          </Button>
+          <Button color="inherit" component={Link} to="/dashboard">
+            Dashboard
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>
