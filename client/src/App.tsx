@@ -3,9 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CssBaseline, GlobalStyles, Box } from '@mui/material';
 
 import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import AuthPage from './pages/authPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -26,9 +24,7 @@ const App: React.FC = () => {
           <Box component="main" flexGrow={1} overflow="auto">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/auth" element={<AuthPage />} />
             </Routes>
           </Box>
           <Footer />
