@@ -3,10 +3,16 @@ import { Box, Typography } from '@mui/material';
 
 const Footer: React.FC = () => {
   return (
-    <Box display="flex" flexDirection="column" minHeight="100vh">
-        <Typography variant="h3" mb={3}>
-          YourApp@2025
-        </Typography>
+    <Box
+      component="footer"
+      py={2}
+      mt="auto"
+      textAlign="center"
+      bgcolor="#000957"
+    >
+      <Typography variant="body2" sx={{ color: 'white' }}>
+        © {new Date().getFullYear()} YourApp. All rights reserved.
+      </Typography>
     </Box>
   );
 };
