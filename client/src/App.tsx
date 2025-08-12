@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CssBaseline, GlobalStyles, Box } from '@mui/material';
 
 import Home from './pages/Home';
-import AuthPage from './pages/authPage';
+import AuthPage from './pages/AuthPage';
+import Dashboard from './pages/Dashboard';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -25,6 +26,7 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/auth" element={<AuthPage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </Box>
           <Footer />
