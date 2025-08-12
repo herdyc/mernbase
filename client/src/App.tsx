@@ -14,23 +14,21 @@ const App: React.FC = () => {
       <CssBaseline />
       <GlobalStyles
         styles={{
-          html: { height: '100%', overflow: 'hidden' },
-          body: { height: '100%', overflow: 'hidden', margin: 0, padding: 0 },
-          '#root': { height: '100%', overflow: 'hidden' },
+          html: { height: '100%', overflowX: 'hidden' }, // allow vertical scroll
+          body: { minHeight: '100%', overflowX: 'hidden', margin: 0, padding: 0 },
+          '#root': { minHeight: '100%', display: 'flex', flexDirection: 'column' },
         }}
       />
       <BrowserRouter>
-        <Box display="flex" flexDirection="column" height="100vh" overflow="hidden">
-          <Header />
-          <Box component="main" flexGrow={1} overflow="auto">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/auth" element={<AuthPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
-          </Box>
-          <Footer />
+        <Header />
+        <Box component="main" sx={{ flex: 1 }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
         </Box>
+        <Footer /> {/* Will only show at the end after content */}
       </BrowserRouter>
     </>
   );

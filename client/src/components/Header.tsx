@@ -63,20 +63,40 @@ const Header: React.FC = () => {
           position="sticky"
           elevation={0}
           sx={{
-            bgcolor: "rgba(0,9,87,0.9)",
+            bgcolor: "rgba(0,9,87,0.9)", // brand: #000957
             backdropFilter: "blur(6px)",
             borderBottom: (t) => `1px solid ${t.palette.divider}`,
           }}
         >
           <Toolbar sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
-            <Box display="flex" alignItems="center" gap={1.5}>
-              <Typography
-                variant="h6"
-                component={RouterLink}
-                to="/"
-                sx={{ textDecoration: "none", color: "inherit", fontWeight: 800, letterSpacing: 0.3 }}
-              >
-                YourApp.io
+            {/* Brand */}
+            <Box
+              component={RouterLink}
+              to="/"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.25,
+                textDecoration: "none",
+                color: "inherit",
+              }}
+            >
+              {/* Logo from /public */}
+              <Box
+                component="img"
+                src={`${process.env.PUBLIC_URL || ""}/logo.png`}
+                alt="Mernbase logo"
+                sx={{
+                  width: 30,
+                  height: 30,
+                  borderRadius: 1,
+                  boxShadow: 1,
+                  bgcolor: "common.white",
+                  objectFit: "cover",
+                }}
+              />
+              <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: 0.3 }}>
+                Mernbase
               </Typography>
             </Box>
 
@@ -86,9 +106,6 @@ const Header: React.FC = () => {
               <NavButton to="/#features" label="Features" active={isActive("/#features")} />
               <NavButton to="/dashboard" label="Dashboard" active={isActive("/dashboard")} />
               <Divider orientation="vertical" flexItem sx={{ mx: 1.5, opacity: 0.2 }} />
-              <Button color="inherit" component={RouterLink} to="/auth?mode=login" sx={{ mr: 0.5 }}>
-                Log in
-              </Button>
               <Button
                 variant="contained"
                 color="secondary"
@@ -96,11 +113,11 @@ const Header: React.FC = () => {
                 to="/auth?mode=signup"
                 sx={{ fontWeight: 700 }}
               >
-                Sign up
+                Get Started
               </Button>
             </Box>
 
-            {/* Mobile */}
+            {/* Mobile menu button */}
             <IconButton
               onClick={() => setOpen(true)}
               color="inherit"
@@ -116,9 +133,18 @@ const Header: React.FC = () => {
       {/* Drawer for mobile */}
       <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
         <Box sx={{ width: 280, p: 2 }}>
-          <Typography variant="h6" sx={{ mb: 1, fontWeight: 800 }}>
-            Menu
-          </Typography>
+          {/* Drawer header with brand */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.25, mb: 1.5 }}>
+            <Box
+              component="img"
+              src={`${process.env.PUBLIC_URL || ""}/logo.png`}
+              alt="Mernbase logo"
+              sx={{ width: 28, height: 28, borderRadius: 1, bgcolor: "common.white", boxShadow: 1 }}
+            />
+            <Typography variant="h6" sx={{ fontWeight: 800 }}>
+              Mernbase
+            </Typography>
+          </Box>
           <Divider sx={{ mb: 1 }} />
           <List>
             <ListItemButton component={RouterLink} to="/#about" onClick={() => setOpen(false)}>
@@ -134,22 +160,13 @@ const Header: React.FC = () => {
           <Divider sx={{ my: 1 }} />
           <Box display="flex" gap={1}>
             <Button
-              variant="outlined"
+              variant="contained"
               fullWidth
               component={RouterLink}
               to="/auth?mode=login"
               onClick={() => setOpen(false)}
             >
-              Log in
-            </Button>
-            <Button
-              variant="contained"
-              fullWidth
-              component={RouterLink}
-              to="/auth?mode=signup"
-              onClick={() => setOpen(false)}
-            >
-              Sign up
+              Get Started
             </Button>
           </Box>
         </Box>

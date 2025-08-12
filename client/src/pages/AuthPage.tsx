@@ -13,7 +13,7 @@ import {
   Stack,
   TextField,
   Typography,
-  useMediaQuery,
+  Grid,
   useTheme,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -34,7 +34,6 @@ function useQuery() {
 
 const AuthPage: React.FC = () => {
   const theme = useTheme();
-  const smUp = useMediaQuery(theme.breakpoints.up("sm"));
   const navigate = useNavigate();
   const qs = useQuery();
 
@@ -52,7 +51,6 @@ const AuthPage: React.FC = () => {
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    // Keep URL’s mode in sync when toggling
     const params = new URLSearchParams(window.location.search);
     params.set("mode", mode);
     const url = `${window.location.pathname}?${params.toString()}`;
@@ -62,7 +60,7 @@ const AuthPage: React.FC = () => {
   const title = mode === "login" ? "Welcome back" : "Create your account";
   const subtitle =
     mode === "login"
-      ? "Log in to continue to YourApp."
+      ? "Log in to continue to Mernbase."
       : "Sign up to get started in minutes.";
 
   const validate = () => {
@@ -98,40 +96,30 @@ const AuthPage: React.FC = () => {
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // if you use cookies/sessions
+        credentials: "include",
         body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
-        // attempt to parse structured error
         let msg = "Request failed.";
         try {
           const data = await res.json();
           msg = data?.message || data?.error || msg;
-        } catch {
-          // swallow
-        }
+        } catch {}
         throw new Error(msg);
       }
 
       const data = await res.json();
-      // Expected: { token?, user? }
-      if (data?.token) {
-        // store token if you’re not using httpOnly cookies
-        if (remember) {
-          localStorage.setItem("token", data.token);
-        } else {
-          sessionStorage.setItem("token", data.token);
-        }
-      }
 
-      // save minimal user context
+      if (data?.token) {
+        if (remember) localStorage.setItem("token", data.token);
+        else sessionStorage.setItem("token", data.token);
+      }
       if (data?.user) {
         localStorage.setItem("user", JSON.stringify(data.user));
       }
 
       setSuccessMsg(mode === "login" ? "Logged in successfully." : "Account created successfully.");
-      // Redirect to your app’s post-auth route
       setTimeout(() => navigate("/"), 600);
     } catch (err: any) {
       setError(err?.message ?? "Something went wrong. Try again.");
@@ -141,14 +129,17 @@ const AuthPage: React.FC = () => {
   };
 
   const SidePanel = (
-    <Box
+    <Paper
+      elevation={3}
       sx={{
-        position: "relative",
-        display: { xs: "none", md: "block" },
-        width: { md: "46%", lg: "50%" },
-        background:
-          `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+        height: "100%",
+        p: { xs: 3, md: 4 },
+        borderRadius: 3,
+        border: `1px solid ${theme.palette.divider}`,
         color: "#fff",
+        background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+        position: "relative",
+        overflow: "hidden",
       }}
     >
       <Box
@@ -159,9 +150,9 @@ const AuthPage: React.FC = () => {
             "radial-gradient(600px 300px at 20% 20%, rgba(255,255,255,.18), transparent 40%), radial-gradient(700px 400px at 80% 80%, rgba(255,255,255,.12), transparent 45%)",
         }}
       />
-      <Box sx={{ position: "relative", p: 6, height: "100%", display: "flex", flexDirection: "column" }}>
+      <Box sx={{ position: "relative", height: "100%", display: "flex", flexDirection: "column" }}>
         <Typography variant="h4" fontWeight={800} sx={{ mb: 2 }}>
-          YourApp
+          Mernbase
         </Typography>
         <Box sx={{ flex: 1, display: "grid", alignContent: "center" }}>
           <Typography variant="h3" fontWeight={900} sx={{ lineHeight: 1.05, mb: 2 }}>
@@ -172,10 +163,10 @@ const AuthPage: React.FC = () => {
           </Typography>
         </Box>
         <Typography variant="body2" sx={{ opacity: 0.9 }}>
-          © {new Date().getFullYear()} Your Company
+          © {new Date().getFullYear()} Mernbase
         </Typography>
       </Box>
-    </Box>
+    </Paper>
   );
 
   const FormCard = (
@@ -183,7 +174,8 @@ const AuthPage: React.FC = () => {
       elevation={3}
       sx={{
         width: "100%",
-        maxWidth: 480,
+        maxWidth: 520,
+        mx: "auto",
         p: { xs: 3, sm: 4 },
         borderRadius: 3,
         border: `1px solid ${theme.palette.divider}`,
@@ -264,12 +256,7 @@ const AuthPage: React.FC = () => {
           </Stack>
         )}
 
-        <Button
-          type="submit"
-          variant="contained"
-          size="large"
-          disabled={submitting}
-        >
+        <Button type="submit" variant="contained" size="large" disabled={submitting}>
           {submitting ? (mode === "login" ? "Logging in..." : "Creating account...") : (mode === "login" ? "Log in" : "Sign up")}
         </Button>
 
@@ -295,25 +282,30 @@ const AuthPage: React.FC = () => {
   );
 
   return (
-    <Box sx={{ minHeight: "100dvh", display: "flex" }}>
-      {SidePanel}
-      <Box
-        sx={{
-          flex: 1,
-          display: "grid",
-          placeItems: "center",
-          p: { xs: 2, sm: 4 },
-          background:
-            smUp
-              ? `radial-gradient(900px 500px at 10% 10%, ${theme.palette.primary.light}10, transparent 60%),
-                 radial-gradient(900px 500px at 90% 90%, ${theme.palette.secondary.light}10, transparent 60%)`
-              : "transparent",
-        }}
-      >
-        <Container maxWidth="md" sx={{ display: "grid", placeItems: "center" }}>
-          {FormCard}
-        </Container>
-      </Box>
+    // Give the page enough vertical space so the footer sits at the end,
+    // while the auth section feels centered (no “footer immediately under cards”).
+    <Box sx={{ minHeight: { xs: "auto", md: "100svh" }, display: "grid", alignContent: "center" }}>
+      <Container sx={{ py: { xs: 4, md: 8 } }}>
+        <Grid
+          container
+          spacing={3}
+          alignItems="stretch"
+          // keep layout narrower on huge screens so it doesn't look sparse
+          sx={{ maxWidth: 1200, mx: "auto" }}
+        >
+          {/* Side panel (hidden on small) */}
+          <Grid item xs={12} md={6} sx={{ display: { xs: "none", md: "block" } }}>
+            {SidePanel}
+          </Grid>
+
+          {/* Form */}
+          <Grid item xs={12} md={6} display="flex">
+            <Box sx={{ width: "100%", display: "grid", alignContent: "center" }}>
+              {FormCard}
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
     </Box>
   );
 };
