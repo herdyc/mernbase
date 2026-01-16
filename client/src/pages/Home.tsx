@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -236,9 +236,15 @@ const Home: React.FC = () => {
   const isSm = useMediaQuery(theme.breakpoints.between("sm", "md"));
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
+
   const deviceScale = isXs ? 1.0 : isSm ? 1.03 : isMdUp ? 1.06 : isLgUp ? 1.08 : 1.04;
 
+  // ✅ FIX: proper ref typing for Box (MUI can infer unknown without this)
   const heroRef = useRef<HTMLDivElement | null>(null);
+  const setHeroRef = useCallback((node: HTMLDivElement | null) => {
+    heroRef.current = node;
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -339,9 +345,8 @@ const Home: React.FC = () => {
       <Section id="hero">
         <Container>
           <Box
-            ref={(n) => {
-              heroRef.current = n;
-            }}
+            component="div"
+            ref={setHeroRef}
             sx={{
               position: "relative",
               borderRadius: { xs: 4, md: 6 },
@@ -456,10 +461,7 @@ const Home: React.FC = () => {
                   justifyContent="center"
                   sx={{ alignItems: "center" }}
                 >
-                  <MotionBox
-                    whileHover={reducedMotion ? undefined : { scale: 1.03 }}
-                    whileTap={reducedMotion ? undefined : { scale: 0.99 }}
-                  >
+                  <MotionBox whileHover={reducedMotion ? undefined : { scale: 1.03 }} whileTap={reducedMotion ? undefined : { scale: 0.99 }}>
                     <Button
                       size="large"
                       variant="contained"
@@ -477,10 +479,7 @@ const Home: React.FC = () => {
                     </Button>
                   </MotionBox>
 
-                  <MotionBox
-                    whileHover={reducedMotion ? undefined : { scale: 1.03 }}
-                    whileTap={reducedMotion ? undefined : { scale: 0.99 }}
-                  >
+                  <MotionBox whileHover={reducedMotion ? undefined : { scale: 1.03 }} whileTap={reducedMotion ? undefined : { scale: 0.99 }}>
                     <Button
                       size="large"
                       variant="outlined"
@@ -552,11 +551,7 @@ const Home: React.FC = () => {
                     },
                   }}
                 >
-                  <CardContent
-                    sx={{
-                      p: { xs: 2.5, md: 3 },
-                    }}
-                  >
+                  <CardContent sx={{ p: { xs: 2.5, md: 3 } }}>
                     <Box sx={{ fontSize: 36, mb: 1.5, color: "primary.main" }}>{f.icon}</Box>
                     <Typography
                       variant="h6"
@@ -719,7 +714,11 @@ const Home: React.FC = () => {
               Kickstart your stack with Mernbase
             </Typography>
 
-            <Typography variant="h6" color="text.secondary" sx={{ mb: 4, fontSize: { xs: "1.0rem", md: "1.15rem" } }}>
+            <Typography
+              variant="h6"
+              color="text.secondary"
+              sx={{ mb: 4, fontSize: { xs: "1.0rem", md: "1.15rem" } }}
+            >
               Production-ready boilerplate, secure auth, elegant UI. Plug in your API and ship.
             </Typography>
 
@@ -738,7 +737,13 @@ const Home: React.FC = () => {
               </MotionBox>
 
               <MotionBox whileHover={reducedMotion ? undefined : { scale: 1.03 }} whileTap={reducedMotion ? undefined : { scale: 0.99 }}>
-                <Button size="large" variant="outlined" component={RouterLink} to="/dashboard" sx={{ px: 3, py: 1.25, borderRadius: 3 }}>
+                <Button
+                  size="large"
+                  variant="outlined"
+                  component={RouterLink}
+                  to="/dashboard"
+                  sx={{ px: 3, py: 1.25, borderRadius: 3 }}
+                >
                   View dashboard
                 </Button>
               </MotionBox>
