@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-11-18T09:10:19.584Z",
+  "rungs": [
+    {
+      "id": "vanilla",
+      "name": "1 · Vanilla HTML/CSS/JS",
+      "files": 2,
+      "linesOfCode": 205,
+      "jsShippedKbGzip": 2.1,
+      "rendering": "Client-side, by hand (DOM APIs)",
+      "data": "localStorage (one browser)",
+      "accounts": "No",
+      "deploy": "Any static host (e.g. GitHub Pages)",
+      "buildStep": "None"
+    },
+    {
+      "id": "astro",
+      "name": "2 · Astro",
+      "files": 8,
+      "linesOfCode": 262,
+      "jsShippedKbGzip": 11.5,
+      "rendering": "Static HTML at build time + one island",
+      "data": "localStorage (one browser)",
+      "accounts": "No",
+      "deploy": "Any static host (e.g. Vercel)",
+      "buildStep": "astro build"
+    },
+    {
+      "id": "mern",
+      "name": "3 · MERN",
+      "files": 24,
+      "linesOfCode": 707,
+      "jsShippedKbGzip": 68.3,
+      "rendering": "Client-side SPA (React) + JSON API",
+      "data": "MongoDB (any device)",
+      "accounts": "Yes (bcrypt + JWT cookie)",
+      "deploy": "API on Render + client on Vercel",
+      "buildStep": "tsc + vite build"
+    },
+    {
+      "id": "tanstack",
+      "name": "4 · TanStack Start",
+      "files": 9,
+      "linesOfCode": 320,
+      "jsShippedKbGzip": 109.7,
+      "rendering": "Server-side rendered, then hydrated",
+      "data": "Server file (swap for a database)",
+      "accounts": "No (exercise)",
+      "deploy": "One Node app (e.g. Vercel, Render)",
+      "buildStep": "vite build"
+    }
+  ]
+}

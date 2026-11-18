@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Planner — Vanilla HTML/CSS/JS</title>
+    <link rel="stylesheet" href="planner.css" />
+  </head>
+  <body>
+    <main class="planner">
+      <header>
+        <h1>Study Planner</h1>
+        <p class="tagline">Rung 1 · plain HTML, CSS and JavaScript. No build step.</p>
+      </header>
+
+      <!-- The form works without JavaScript's help for validation: `required` is native HTML. -->
+      <form class="add-form" id="add-form">
+        <label class="visually-hidden" for="new-title">Task</label>
+        <input id="new-title" type="text" name="title" placeholder="What do you need to study?" required maxlength="120" />
+        <label class="visually-hidden" for="new-due">Due date</label>
+        <input id="new-due" type="date" name="due" />
+        <button class="primary" type="submit">Add</button>
+      </form>
+
+      <div class="filters" role="group" aria-label="Filter tasks">
+        <button class="ghost" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="ghost" type="button" data-filter="active" aria-pressed="false">Active</button>
+        <button class="ghost" type="button" data-filter="done" aria-pressed="false">Done</button>
+      </div>
+
+      <ul class="task-list" id="task-list" aria-live="polite"></ul>
+      <p class="summary" id="summary"></p>
+    </main>
+
+    <!-- `defer` runs the script after the HTML is parsed, so getElementById finds the elements. -->
+    <script src="app.js" defer></script>
+  </body>
+</html>

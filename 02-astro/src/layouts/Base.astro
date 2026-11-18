@@ -1,0 +1,52 @@
+---
+// A layout is a component that wraps every page.
+// In rung 1 you would copy this header into each HTML file; here it lives once.
+import "../styles/planner.css";
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+const path = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — Study Planner (Astro)</title>
+  </head>
+  <body>
+    <main class="planner">
+      <header>
+        <h1>Study Planner</h1>
+        <p class="tagline">Rung 2 · Astro: components, layouts and one interactive island.</p>
+        <nav class="filters" aria-label="Pages">
+          <a class="nav-link" href="/" aria-current={path === "/" ? "page" : undefined}>Planner</a>
+          <a class="nav-link" href="/tips" aria-current={path.startsWith("/tips") ? "page" : undefined}>Study tips</a>
+        </nav>
+      </header>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  /* Scoped style: Astro rewrites this so it only affects this component. */
+  .nav-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 12px;
+    border-radius: 12px;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid var(--border);
+  }
+  .nav-link[aria-current="page"] {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+</style>

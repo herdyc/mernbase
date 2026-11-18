@@ -1,0 +1,24 @@
+---
+// This code runs at BUILD time, not in the browser.
+// Astro reads the JSON, renders the HTML once, and ships zero JavaScript for this page.
+import Base from "../layouts/Base.astro";
+import tips from "../data/tips.json";
+
+const builtAt = new Date().toISOString().slice(0, 10);
+---
+
+<Base title="Study tips">
+  <h2>Study tips</h2>
+  <ul class="task-list">
+    {tips.map((tip) => (
+      <li class="task tip">
+        <span class="title"><strong>{tip.title}.</strong> {tip.body}</span>
+      </li>
+    ))}
+  </ul>
+  <p class="summary">Rendered at build time on {builtAt}. Open DevTools → Network: this page loads no JavaScript.</p>
+</Base>
+
+<style>
+  .tip { grid-template-columns: 1fr; }
+</style>

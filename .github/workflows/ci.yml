@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Rung 2 · Astro
+        working-directory: 02-astro
+        run: npm ci && npm run check && npm run build
+
+      - name: Rung 3 · MERN server (tests use an in-memory MongoDB)
+        working-directory: 03-mern/server
+        run: npm ci && npm run typecheck && npm test
+
+      - name: Rung 3 · MERN client
+        working-directory: 03-mern/client
+        run: npm ci && npm run build
+
+      - name: Rung 4 · TanStack Start
+        working-directory: 04-tanstack
+        run: npm ci && npm run typecheck && npm run build
+
+      - name: Metrics
+        run: node scripts/metrics.mjs

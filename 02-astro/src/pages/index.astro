@@ -1,0 +1,14 @@
+---
+import Base from "../layouts/Base.astro";
+import Planner from "../components/Planner";
+---
+
+<Base title="Planner">
+  <!--
+    client:load turns this one component into an "island": Astro ships its
+    JavaScript and makes it interactive in the browser. Everything else on
+    the page is plain HTML with zero JavaScript.
+    Try removing client:load: the planner still renders, but nothing clicks.
+  -->
+  <Planner client:load />
+</Base>
